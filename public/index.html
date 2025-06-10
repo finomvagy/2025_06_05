@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kvízkezelő</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>Kvízkezelő</h1>
+
+    <section id="auth-section">
+        <h2>Regisztráció</h2>
+        <input id="reg-username" type="text" placeholder="Felhasználónév" maxlength="15" />
+        <input id="reg-password" type="password" placeholder="Jelszó" />
+        <button id="btn-register">Regisztráció</button>
+
+        <h2>Bejelentkezés</h2>
+        <input id="login-username" type="text" placeholder="Felhasználónév" />
+        <input id="login-password" type="password" placeholder="Jelszó" />
+        <button id="btn-login">Bejelentkezés</button>
+    </section>
+
+    <section id="main-section" style="display:none;">
+        <h2>Főoldal</h2>
+        <p>Üdv, <span id="welcome-username"></span>!</p>
+        <button id="btn-to-profile">Profilom</button>
+        <button id="btn-to-quiz-management">Kvízeim Kezelése</button>
+        <button id="btn-to-take-quiz-list">Kvíz Kitöltése</button>
+        <button id="btn-to-my-attempts">Korábbi Kitöltéseim</button>
+        <button id="btn-logout-main">Kijelentkezés</button>
+    </section>
+
+    <section id="user-profile-section" style="display:none;">
+        <h2>Profilom</h2>
+        <p><strong>Felhasználónév:</strong> <span id="profile-username"></span></p>
+        <p><strong>ID:</strong> <span id="profile-id"></span></p>
+        <button id="btn-logout-profile">Kijelentkezés</button>
+        <button class="btn-back-to-main">Vissza a főoldalra</button>
+    </section>
+
+    <section id="quiz-management-section" style="display:none;">
+        <h2>Kvízeim Kezelése</h2>
+        <button class="btn-back-to-main">Vissza a főoldalra</button>
+
+        <h3>Kvíz Létrehozása / Szerkesztése</h3>
+        <input type="hidden" id="edit-quiz-id" />
+        <input id="quiz-title-input" type="text" placeholder="Kvíz címe" />
+        <textarea id="quiz-description-input" placeholder="Kvíz leírása"></textarea>
+        <input id="quiz-difficulty-input" type="text" placeholder="Nehézségi szint (pl. könnyű, közepes, nehéz)" />
+        <input id="quiz-category-input" type="text" placeholder="Kategória (pl. történelem, tudomány)" />
+        <button id="btn-save-quiz">Mentés</button>
+        <button id="btn-clear-quiz-form" style="display:none;">Űrlap Törlése Új Kvízhez</button>
+        
+        <h3>Kvízek listája</h3>
+        <div class="filter-sort-controls">
+            <input id="filter-difficulty" type="text" placeholder="Szűrés nehézség szerint" />
+            <input id="filter-category" type="text" placeholder="Szűrés kategória szerint" />
+            <input id="search-title" type="text" placeholder="Keresés cím alapján" />
+            <button id="btn-filter-quizzes">Szűrés</button>
+            <button id="btn-search-quiz">Keresés</button> 
+            <button id="btn-sort-quizzes-avg-score">Rendezés átlagpontszám szerint</button>
+            <button id="btn-reset-quiz-list">Szűrők/Rendezés visszaállítása</button>
+        </div>
+        <ul id="quiz-list"></ul>
+    </section>
+
+    <section id="question-management-section" style="display:none;">
+        <h2 id="question-management-quiz-title"></h2>
+        <button id="btn-back-to-quiz-management">Vissza a kvízekhez</button>
+
+        <h3>Új kérdés hozzáadása</h3>
+        <textarea id="new-question-text" placeholder="Kérdés szövege"></textarea>
+        <button id="btn-add-question-to-quiz">Hozzáadás</button>
+
+        <h3>Kérdések listája</h3>
+        <ul id="question-list-for-quiz"></ul>
+    </section>
+
+    <section id="answer-management-section" style="display:none;">
+        <h2 id="answer-management-question-text"></h2>
+        <button id="btn-back-to-question-management">Vissza a kérdésekhez</button>
+
+        <h3>Új válasz hozzáadása</h3>
+        <input id="new-answer-text" type="text" placeholder="Válasz szövege" />
+        <label>
+            <input type="checkbox" id="new-answer-is-correct" />
+            Helyes válasz
+        </label>
+        <button id="btn-add-answer-to-question">Hozzáadás</button>
+
+        <h3>Válaszok listája</h3>
+        <ul id="answer-list-for-question"></ul>
+    </section>
+
+    <section id="take-quiz-list-section" style="display:none;">
+        <h2>Kvíz Kitöltése</h2>
+        <button class="btn-back-to-main">Vissza a főoldalra</button>
+        <h3>Elérhető kvízek</h3>
+        <ul id="available-quizzes-for-taking"></ul>
+    </section>
+
+    <section id="quiz-taking-section" style="display:none;">
+        <h2 id="quiz-taking-title"></h2>
+        <div id="quiz-taking-questions-area"></div>
+        <button id="btn-submit-attempt">Kitöltés befejezése</button>
+        <button id="btn-cancel-attempt">Kitöltés Megszakítása és Vissza a listához</button>
+    </section>
+
+    <section id="attempt-result-section" style="display:none;">
+        <h2>Kitöltés Eredménye</h2>
+        <p>Kvíz: <span id="result-quiz-title"></span></p>
+        <p>Eredmény: <span id="result-score"></span> / <span id="result-total-questions"></span></p>
+        <button id="btn-to-attempt-details-from-result">Részletes Eredmények</button>
+        <button class="btn-back-to-main">Vissza a főoldalra</button>
+    </section>
+
+    <section id="my-attempts-section" style="display:none;">
+        <h2>Korábbi Kitöltéseim</h2>
+        <button class="btn-back-to-main">Vissza a főoldalra</button>
+        <ul id="my-attempts-list"></ul>
+    </section>
+
+    <section id="attempt-details-section" style="display:none;">
+        <h2>Kitöltés Részletei</h2>
+        <button id="btn-back-from-attempt-details">Vissza</button>
+        <div id="attempt-details-content">
+            <p><strong>Kvíz:</strong> <span id="detail-quiz-title"></span></p>
+            <p><strong>Elért pontszám:</strong> <span id="detail-score"></span> / <span id="detail-total-questions"></span></p>
+            <p><strong>Státusz:</strong> <span id="detail-status"></span></p>
+            <p><strong>Kezdés ideje:</strong> <span id="detail-start-time"></span></p>
+            <p><strong>Befejezés ideje:</strong> <span id="detail-completed-at"></span></p>
+            <h3>Kérdések és Válaszaid:</h3>
+            <ul id="detail-answers-list"></ul>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
